@@ -5,29 +5,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/MaineK00n/vuls-data-update/pkg/fetch/suse/oval"
 )
 
-type root struct {
-	Generator struct {
-		ProductName   string `xml:"product_name"`
-		SchemaVersion string `xml:"schema_version"`
-		Timestamp     string `xml:"timestamp"`
-	} `xml:"generator" json:"generator,omitempty"`
-	Definitions struct {
-		Definition []oval.Definition `xml:"definition" json:"definition,omitempty"`
-	} `xml:"definitions" json:"definitions,omitempty"`
-	Tests   oval.Tests   `xml:"tests" json:"tests,omitempty"`
-	Objects oval.Objects `xml:"objects" json:"objects,omitempty"`
-	States  oval.States  `xml:"states" json:"states,omitempty"`
-}
-
 type m struct {
-	dm map[string]oval.Definition
-	tm map[string]oval.RpminfoTest
-	om map[string]oval.RpminfoObject
-	sm map[string]oval.RpminfoState
+	dm map[string]Definition
+	tm map[string]RpminfoTest
+	om map[string]RpminfoObject
+	sm map[string]RpminfoState
 }
 
 func main() {
@@ -53,10 +37,10 @@ func main() {
 	}
 
 	m := m{
-		dm: make(map[string]oval.Definition),
-		tm: make(map[string]oval.RpminfoTest),
-		om: make(map[string]oval.RpminfoObject),
-		sm: make(map[string]oval.RpminfoState),
+		dm: make(map[string]Definition),
+		tm: make(map[string]RpminfoTest),
+		om: make(map[string]RpminfoObject),
+		sm: make(map[string]RpminfoState),
 	}
 
 	for _, def := range root.Definitions.Definition {
@@ -90,7 +74,7 @@ func main() {
 	}
 }
 
-func printCriteria(m m, criteria oval.Criteria) {
+func printCriteria(m m, criteria Criteria) {
 	for _, c := range criteria.Criterias {
 		printCriteria(m, c)
 	}
