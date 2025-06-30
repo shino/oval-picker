@@ -2,7 +2,7 @@
 very unreliable oval debug script
 
 ```
-% go run main.go /path/to/2025-06-30-suse-oval/suse.linux.enterprise.15-sp6-affected.xml oval:org.opensuse.security:def:200220001
+% go run . /path/to/2025-06-30-suse-oval/suse.linux.enterprise.15-sp6-affected.xml oval:org.opensuse.security:def:200220001
 Criterion: SUSE Linux Enterprise Desktop 15 SP6 is installed
   Object Name:    "sled-release"
   Object Version: "1"
