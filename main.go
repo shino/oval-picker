@@ -70,17 +70,22 @@ func main() {
 			return
 		}
 		// fmt.Printf("======= def: %+v\n", def)
-		printCriteria(m, def.Criteria)
+		printCriteria(m, def.Criteria, 0)
 	}
 }
 
-func printCriteria(m m, criteria Criteria) {
+func printCriteria(m m, criteria Criteria, indent int) {
+	padding := strings.Repeat("    ", indent)
+
+	fmt.Printf("%sCriteria: %s\n", padding, criteria.Operator)
+
 	for _, c := range criteria.Criterias {
-		printCriteria(m, c)
+		printCriteria(m, c, indent+1)
 	}
 
+	padding = strings.Repeat("    ", indent+1)
 	for _, c := range criteria.Criterions {
-		fmt.Printf("Criterion: %s\n", c.Comment)
+		fmt.Printf("%sCriterion: %s\n", padding, c.Comment)
 		t, found := m.tm[c.TestRef]
 		if !found {
 			fmt.Println("Test not found:", c.TestRef)
@@ -97,11 +102,11 @@ func printCriteria(m m, criteria Criteria) {
 			continue
 		}
 
-		fmt.Printf("  Object Name:    %q\n", o.Name)
-		fmt.Printf("  Object Version: %q\n", o.Version)
-		fmt.Printf("  State ID:       %q\n", s.ID)
-		fmt.Printf("  State Version:  %q (op: %q)\n", s.Version.Text, s.Version.Operation)
-		fmt.Printf("  State EVR:      %q (op: %q)\n", s.Evr.Text, s.Evr.Operation)
-		fmt.Printf("  State Arch:     %q (op: %q)\n", s.Arch.Text, s.Arch.Operation)
+		fmt.Printf("  %sObject Name:    %q\n", padding, o.Name)
+		fmt.Printf("  %sObject Version: %q\n", padding, o.Version)
+		fmt.Printf("  %sState ID:       %q\n", padding, s.ID)
+		fmt.Printf("  %sState Version:  %q (op: %q)\n", padding, s.Version.Text, s.Version.Operation)
+		fmt.Printf("  %sState EVR:      %q (op: %q)\n", padding, s.Evr.Text, s.Evr.Operation)
+		fmt.Printf("  %sState Arch:     %q (op: %q)\n", padding, s.Arch.Text, s.Arch.Operation)
 	}
 }
